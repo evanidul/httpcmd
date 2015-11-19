@@ -45,24 +45,36 @@ public class DirectoryController extends HttpServlet {
 		 */
 		Directory root = new Directory("root");
 		
-		Directory appsdir = new Directory("Applications");
+		Directory appsdir = new Directory("Applications", root);
 		root.addSubdirectory(appsdir);
 		
-		Directory docsdir = new Directory("Documents");
+		Directory docsdir = new Directory("Documents", root);
 		root.addSubdirectory(docsdir);
 		
 		
 		//request.setAttribute("rootdir", root);
 		request.getSession().setAttribute("currentdir", root);
+//		request.setAttribute("cmdexecuted", "asdfasdf");
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/directory.jsp").forward(request, response);
 	}
 	
 	/** processCommand should model changes and http session state changes before passing control to render() **/
 	private void processCommand(HttpServletRequest request, HttpServletResponse response) {
-		String command = request.getParameter("command");
 		
-		CommandProcessor cmdline = new CommandProcessor();
-		//cmdline.execute(command);
+		String command = request.getParameter("command");	
+		System.out.println("received cmd:" + command);
+		try {
+			CommandProcessor cmdline = new CommandProcessor();
+			/** not great to pass request here, but gonna do it anyway.  In a real app I probably would spend time to design around it **/
+			String cmdexecuted = cmdline.execute(command,request);
+			System.out.println("cmdexecuted:" + cmdexecuted);
+			request.setAttribute("cmdexecuted", cmdexecuted);
+		} catch (Exception ex) {
+			System.out.println("got error: " + ex.getMessage());
+			request.setAttribute("errormessage", ex.getMessage());
+		}
+		
+		//CommandProcessor returns the view markup for that window?
 		
 	}
 	

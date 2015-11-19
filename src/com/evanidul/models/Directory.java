@@ -5,13 +5,14 @@ import java.util.LinkedList;
 public class Directory implements Cloneable {
 
 	private String name;
-
+	private Directory parentdir = null;  //stays null if it's root, must be there otherwise
 	private LinkedList<Directory> subdirectories = new LinkedList<Directory>();
 	
-	public Directory() {}
+	public Directory(String _name) {}
 	
-	public Directory(String _name) {
+	public Directory(String _name, Directory parent) {
 		name = _name;
+		setParentdir(parent);
 	}
 	
 	public String getName() {
@@ -30,10 +31,27 @@ public class Directory implements Cloneable {
 		this.subdirectories = subdirectories;
 	}
 
+	public Directory getParentdir() {
+		return parentdir;
+	}
+
+	public void setParentdir(Directory parentdir) {
+		this.parentdir = parentdir;
+	}
+
 
 	public boolean isEmpty(){
 		if (getSubdirectories().size() >1) return true;
 		return false;
+	}
+	
+	public Directory getSubDirectory(String subdirname) {
+		for(Directory subdir : subdirectories) {
+			if (subdir.getName().toLowerCase().equals(subdirname.toLowerCase())) {
+				return subdir;
+			}
+		} 
+		return null;
 	}
 	
 	/**
@@ -50,6 +68,7 @@ public class Directory implements Cloneable {
 		
 	}
 
+	
 		
 	
 }
