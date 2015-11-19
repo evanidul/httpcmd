@@ -1,5 +1,8 @@
 package com.evanidul.models;
 
+import java.text.Collator;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 public class Directory implements Cloneable {
@@ -35,6 +38,15 @@ public class Directory implements Cloneable {
 	}
 	
 	public LinkedList<Directory> getSubdirectories() {
+		Collections.sort(subdirectories, new Comparator() {
+            @Override
+            public int compare(Object dirone, Object dirtwo) {
+            	return ((Directory)dirone).getName().compareTo(((Directory)dirtwo).getName());
+            }
+        });
+
+		
+		
 		return subdirectories;
 	}
 
