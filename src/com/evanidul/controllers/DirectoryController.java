@@ -58,23 +58,23 @@ public class DirectoryController extends HttpServlet {
 	/** first request, initialize root dir **/
 	private void initState(HttpServletRequest request, HttpServletResponse response) {
 		
-		
-		if (request.getSession().getAttribute("init") == null){
-			System.out.println("init app...");
-			Directory root = new Directory("/");
-			request.getSession().setAttribute("root", root);
-			
-			Directory appsdir = new Directory("Applications", root);
-			root.addSubdirectory(appsdir);
-			
-			Directory docsdir = new Directory("Documents", root);
-			root.addSubdirectory(docsdir);
-			
-			//start the user at root
-			request.getSession().setAttribute("currentdir", root);
-			
-			request.getSession().setAttribute("init", true);
-		}
+		//moved this into session listener code.
+//		if (request.getSession().getAttribute("init") == null){
+//			System.out.println("init app...");
+//			Directory root = new Directory("/");
+//			request.getSession().setAttribute("root", root);
+//			
+//			Directory appsdir = new Directory("Applications", root);
+//			root.addSubdirectory(appsdir);
+//			
+//			Directory docsdir = new Directory("Documents", root);
+//			root.addSubdirectory(docsdir);
+//			
+//			//start the user at root
+//			request.getSession().setAttribute("currentdir", root);
+//			
+//			request.getSession().setAttribute("init", true);
+//		}
 		
 		
 		
