@@ -28,6 +28,7 @@ public class DirectoryController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		initState(request, response);
 		render(request, response);
 	}
 
@@ -35,27 +36,38 @@ public class DirectoryController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		initState(request, response);
 		processCommand(request, response);
 		render(request, response);
 	}
 	
 	private void render(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/** fake state
-		 * 
-		 */
-		Directory root = new Directory("root");
-		
-		Directory appsdir = new Directory("Applications", root);
-		root.addSubdirectory(appsdir);
-		
-		Directory docsdir = new Directory("Documents", root);
-		root.addSubdirectory(docsdir);
-		
-		
-		//request.setAttribute("rootdir", root);
-		request.getSession().setAttribute("currentdir", root);
-//		request.setAttribute("cmdexecuted", "asdfasdf");
+
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/directory.jsp").forward(request, response);
+	}
+	
+	/** first request, initialize root dir **/
+	private void initState(HttpServletRequest request, HttpServletResponse response) {
+		
+		
+		if (request.getSession().getAttribute("init") == null){
+			Directory root = new Directory("/");
+			
+			Directory appsdir = new Directory("Applications", root);
+			root.addSubdirectory(appsdir);
+			
+			Directory docsdir = new Directory("Documents", root);
+			root.addSubdirectory(docsdir);
+			
+			//start the user at root
+			request.getSession().setAttribute("currentdir", root);
+			
+			request.getSession().setAttribute("init", true);
+		}
+		
+		
+		
+
 	}
 	
 	/** processCommand should model changes and http session state changes before passing control to render() **/

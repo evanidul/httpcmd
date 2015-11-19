@@ -8,7 +8,9 @@ public class Directory implements Cloneable {
 	private Directory parentdir = null;  //stays null if it's root, must be there otherwise
 	private LinkedList<Directory> subdirectories = new LinkedList<Directory>();
 	
-	public Directory(String _name) {}
+	public Directory(String _name) {
+		name = _name;
+	}
 	
 	public Directory(String _name, Directory parent) {
 		name = _name;

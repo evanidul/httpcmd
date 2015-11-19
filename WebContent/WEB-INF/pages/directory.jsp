@@ -64,6 +64,9 @@ error message =  <%= errormessage %>
         	<br />
     	 </c:when>
     	<c:when test="${cmdexecuted.equals('ls')}">
+    		<c:if test="${empty currentdir.subdirectories}">
+				-- Empty --
+			</c:if>
         	<c:forEach var="subdir" items="${currentdir.subdirectories}">		
 				<p>${subdir.name}</p>
 			</c:forEach>
@@ -78,7 +81,7 @@ error message =  <%= errormessage %>
         	<br />
     	</c:when>
     	<c:when test="${cmdexecuted.equals('pwd')}">
-        	to be coded...
+        	${currentdir.name}
         	<br />
     	</c:when>    
     	<c:otherwise>
@@ -89,10 +92,7 @@ error message =  <%= errormessage %>
 	
 	
 	</div>
-	<!-- <form id="form" method="post">
-		:<input class="input" type="text" name="cmd" id="cmd" maxlength="100" />
-		<input type="hidden" name="sid" id="sid" value="" />
-	</form> -->
+	
 	<form action="DirectoryController" method="POST" id="form">
 		:<input class="input" type="text" name="command" id="cmd" maxlength="100" />
 		<input type="hidden" name="sid" id="sid" value="" />
