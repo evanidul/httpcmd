@@ -86,7 +86,9 @@ public class CommandProcessor {
 				//cd takes 1 arg, the name of the folder to cd in.  It must be a directory in the subdirectories of the current folder, or ".." for the parent dir
 				Directory current = (Directory) request.getSession().getAttribute("currentdir");
 				if (args[1].equals("..")) {
-					request.getSession().setAttribute("currentdir", current.getParentdir());
+					if (current.getParentdir() != null) {
+						request.getSession().setAttribute("currentdir", current.getParentdir());
+					}
 					return "cd";
 				}
 				//cd into a subdirectory
