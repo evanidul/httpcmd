@@ -50,15 +50,17 @@ public class CommandProcessor {
 	
 	/** only checks if the name is null...anything else **/
 	private void validateMKDIR(String[] args) throws Exception {
-		if(args[1] == null) {
-			throw new Exception ("Name cannot be null");
+		if(args.length < 2) {
+			System.out.println("Name cannot be null for mkdir");
+			throw new Exception("Name cannot be null");
 		}
 	}
 	
 	/** kind of different from Eric's.  Just checking if a name is passed.  Doesn't validate if it's a valid dir **/
 	private void validateCD(String[] args) throws Exception {
-		if(args[1] == null) {
-			throw new Exception ("dir name cannot be null");
+		if(args.length < 2) {
+			System.out.println("dir cannot be name for cd");
+			throw new Exception("dir name cannot be null");
 		}
 	}
 	
