@@ -2,6 +2,8 @@ package com.evanidul.util;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jsoup.Jsoup;
+
 import com.evanidul.models.Directory;
 
 public class CommandProcessor {
@@ -78,7 +80,10 @@ public class CommandProcessor {
 				return "ls";
 			case "mkdir":
 				//mkdir takes 1 arg, the name of the new folder.  It must be there
-				String newFolderName = args[1];
+
+				//filter out html tags, xxs attacks by using Jsoup to parse out html tags
+				String newFolderName = Jsoup.parse(args[1]).text();
+				
 				Directory parent = (Directory) request.getSession().getAttribute("currentdir");
 				/** check duplicate **/
 				if (parent.getSubDirectory(newFolderName) != null){
@@ -93,21 +98,24 @@ public class CommandProcessor {
 			case "cd":
 				//cd takes 1 arg, the name of the folder to cd in.  It must be a directory in the subdirectories of the current folder, or ".." for the parent dir
 				Directory current = (Directory) request.getSession().getAttribute("currentdir");
-				if (args[1].equals("..")) {
+				
+				// clean html tags out of the cmd arg or else they can hack.
+				String CDarg = Jsoup.parse(args[1]).text();
+				if (CDarg.equals("..")) {
 					if (current.getParentdir() != null) {
 						request.getSession().setAttribute("currentdir", current.getParentdir());
 					}
 					return "cd";
 				}
 				//cd into a subdirectory
-				Directory changee = current.getSubDirectory(args[1]);
+				Directory changee = current.getSubDirectory(CDarg);
 				if (changee != null) {
 					//cd into that dir
 					request.getSession().setAttribute("currentdir", changee);
 					return "cd";
 				} else {
 					//not a valid dir
-					throw new Exception("Cannot cd into " + args[1] + ".  Directory does not exist");
+					throw new Exception("Cannot cd into " + CDarg + ".  Directory does not exist");
 				}				
 				
 			case "pwd":
