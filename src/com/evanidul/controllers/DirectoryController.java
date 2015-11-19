@@ -28,7 +28,6 @@ public class DirectoryController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		initState(request, response);
 		render(request, response);
 	}
 
@@ -36,7 +35,6 @@ public class DirectoryController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		initState(request, response);
 		processCommand(request, response);
 		render(request, response);
 	}
@@ -55,31 +53,10 @@ public class DirectoryController extends HttpServlet {
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/directory.jsp").forward(request, response);
 	}
 	
-	/** first request, initialize root dir **/
-	private void initState(HttpServletRequest request, HttpServletResponse response) {
-		
-		//moved this into session listener code.
-//		if (request.getSession().getAttribute("init") == null){
-//			System.out.println("init app...");
-//			Directory root = new Directory("/");
-//			request.getSession().setAttribute("root", root);
-//			
-//			Directory appsdir = new Directory("Applications", root);
-//			root.addSubdirectory(appsdir);
-//			
-//			Directory docsdir = new Directory("Documents", root);
-//			root.addSubdirectory(docsdir);
-//			
-//			//start the user at root
-//			request.getSession().setAttribute("currentdir", root);
-//			
-//			request.getSession().setAttribute("init", true);
-//		}
-		
+
 		
 		
 
-	}
 	
 	/** processCommand should model changes and http session state changes before passing control to render() **/
 	private void processCommand(HttpServletRequest request, HttpServletResponse response) {
