@@ -43,6 +43,15 @@ public class DirectoryController extends HttpServlet {
 	
 	private void render(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		/** currrentdir must always be set **/
+		if (request.getSession().getAttribute("currentdir") == null){
+			System.out.println("cur dir not found...setting as root..");
+			Directory root = (Directory)request.getSession().getAttribute("root");
+			request.getSession().setAttribute("currentdir", root);
+		}
+		
+		
+		
 		getServletContext().getRequestDispatcher("/WEB-INF/pages/directory.jsp").forward(request, response);
 	}
 	
@@ -51,7 +60,9 @@ public class DirectoryController extends HttpServlet {
 		
 		
 		if (request.getSession().getAttribute("init") == null){
+			System.out.println("init app...");
 			Directory root = new Directory("/");
+			request.getSession().setAttribute("root", root);
 			
 			Directory appsdir = new Directory("Applications", root);
 			root.addSubdirectory(appsdir);

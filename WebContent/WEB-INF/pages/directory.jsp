@@ -110,6 +110,7 @@ Commands: ls | mkdir | cd | pwd
 
 <p> Debug </p>
 previous command = <%= request.getParameter("command")%> </br>
+current dir = ${currentdir.absoluteName}
 
 
 
