@@ -20,6 +20,15 @@ public class Directory implements Cloneable {
 	public String getName() {
 		return name;
 	}
+	
+	public String getAbsoluteName() {
+		if (parentdir != null) {
+			return parentdir.getAbsoluteName() + "\\" + name;
+		} else {
+			return "\\";
+		}
+		 
+	}
 
 	public void setName(String name) {
 		this.name = name;

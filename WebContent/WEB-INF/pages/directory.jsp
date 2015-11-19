@@ -81,11 +81,10 @@ error message =  <%= errormessage %>
         	<br />
     	</c:when>
     	<c:when test="${cmdexecuted.equals('pwd')}">
-        	${currentdir.name}
+        	${currentdir.absoluteName}
         	<br />
     	</c:when>    
-    	<c:otherwise>
-	        Should never see this.
+    	<c:otherwise>	        
 	        <br />
     	</c:otherwise>
 	</c:choose>
@@ -119,39 +118,3 @@ previous command = <%= request.getParameter("command")%> </br>
 
 
 
-
-<%-- <html>
-<head>
-<title>Directory</title>
-</head>
-<body>
-
-	
-	<p>You are in: ${currentdir.name}</p>
-	
-	
-	<p>${currentdir.name} has the following subdirectories:</p>
-	
-	<c:forEach var="subdir" items="${currentdir.subdirectories}">
-		
-		<p>${subdir.name}</p>
-			
-		
-	</c:forEach>
-	
-	<p>Enter a command (ls|mkdir|cd|pwd)</p>
-	
-	<p>
-   previous command = <%= request.getParameter("command")%>
-	</p>
-	
-	<form action="DirectoryController" method="POST">
-enter command: <input type="text" name="command">
-<br />
-
-
-</form>
-
-
-</body>
-</html> --%>
