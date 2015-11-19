@@ -80,6 +80,12 @@ public class CommandProcessor {
 				//mkdir takes 1 arg, the name of the new folder.  It must be there
 				String newFolderName = args[1];
 				Directory parent = (Directory) request.getSession().getAttribute("currentdir");
+				/** check duplicate **/
+				if (parent.getSubDirectory(newFolderName) != null){
+					throw new Exception("Folder already exists");
+				}
+				
+				
 				Directory newfolder = new Directory(newFolderName, parent);
 				parent.addSubdirectory(newfolder);
 				//we don't change directories after creating it...
